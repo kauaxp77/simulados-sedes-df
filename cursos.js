@@ -6,7 +6,8 @@ const cursosData = [
       'Pacote completo com cronograma guiado, simulados inéditos e banco de questões para evolução contínua.',
     destaques: ['Cronograma semanal orientado', 'Banco de questões atualizado', 'Acompanhamento de desempenho'],
     ctaTexto: 'Conhecer pacote',
-    ctaLink: 'simulados.html'
+    ctaLink: 'simulados.html',
+    bloqueado: true
   },
   {
     id: 'd14',
@@ -15,7 +16,8 @@ const cursosData = [
       'Metodologia direcionada para consolidar base teórica e aplicação prática em questões de alta recorrência.',
     destaques: ['Método estruturado em blocos', 'Foco em revisão ativa', 'Treino com padrão da banca'],
     ctaTexto: 'Ver metodologia',
-    ctaLink: 'simulados.html'
+    ctaLink: 'simulados.html',
+    bloqueado: true
   },
   {
     id: 'master-quadrix',
@@ -24,7 +26,8 @@ const cursosData = [
       'Treinamento de estratégias de resolução para ganhar velocidade, precisão e controle emocional na prova.',
     destaques: ['Gestão de tempo por bloco', 'Técnicas de eliminação de alternativas', 'Plano de reta final'],
     ctaTexto: 'Acessar master class',
-    ctaLink: 'simulados.html'
+    ctaLink: 'simulados.html',
+    bloqueado: true
   },
   {
     id: 'questoes',
@@ -36,7 +39,8 @@ const cursosData = [
       'Conhecimentos específicos comuns para cargos de nível superior'
     ],
     ctaTexto: 'Explorar trilhas',
-    ctaLink: 'simulados.html'
+    ctaLink: 'simulados.html',
+    bloqueado: true
   }
 ];
 
@@ -56,7 +60,11 @@ function renderCursos() {
         .join('');
 
       return `
-        <article class="info-card glass course-card">
+        <article class="info-card glass course-card ${curso.bloqueado ? 'card-bloqueado' : ''}">
+          ${curso.bloqueado ? `<div class="ribbon-container">
+                                 <div class="ribbon-em-breve ribbon-1"><div class="ribbon-text"><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span></div></div>
+                                 <div class="ribbon-em-breve ribbon-2"><div class="ribbon-text"><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span></div></div>
+                               </div>` : ''}
           <p class="eyebrow">${curso.id === 'questoes' ? 'Prática orientada' : 'Curso premium'}</p>
           <h3>${curso.titulo}</h3>
           <p>${curso.descricao}</p>

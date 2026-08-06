@@ -6,7 +6,8 @@ const materiaisData = [
     tipo: 'PDF',
     descricao: 'Resumo estratégico de Português, Raciocínio Lógico e Atualidades para nível médio e superior.',
     tamanho: '2.4 MB',
-    url: 'assets/pdfs/apostila-basicos-teste.pdf'
+    url: 'assets/pdfs/apostila-basicos-teste.pdf',
+    bloqueado: true
   },
   {
     id: 'mat-2',
@@ -15,7 +16,8 @@ const materiaisData = [
     tipo: 'PDF',
     descricao: 'Guia objetivo com os principais artigos e pontos de cobrança da banca Quadrix.',
     tamanho: '3.1 MB',
-    url: 'assets/pdfs/apostila-legislacao-teste.pdf'
+    url: 'assets/pdfs/apostila-legislacao-teste.pdf',
+    bloqueado: true
   },
   {
     id: 'mat-3',
@@ -24,7 +26,8 @@ const materiaisData = [
     tipo: 'PDF',
     descricao: 'Pacote de questões comentadas para cargos de nível médio, com foco em revisão ativa.',
     tamanho: '1.8 MB',
-    url: 'assets/pdfs/lista-questoes-medio-teste.pdf'
+    url: 'assets/pdfs/lista-questoes-medio-teste.pdf',
+    bloqueado: true
   },
   {
     id: 'mat-4',
@@ -33,13 +36,18 @@ const materiaisData = [
     tipo: 'PDF',
     descricao: 'Questões por tema para consolidar conhecimentos específicos comuns de nível superior.',
     tamanho: '2.2 MB',
-    url: 'assets/pdfs/lista-questoes-superior-teste.pdf'
+    url: 'assets/pdfs/lista-questoes-superior-teste.pdf',
+    bloqueado: true
   }
 ];
 
 function createMaterialCard(material) {
   return `
-    <article class="info-card glass material-card" data-categoria="${material.categoria}">
+    <article class="info-card glass material-card ${material.bloqueado ? 'card-bloqueado' : ''}" data-categoria="${material.categoria}">
+      ${material.bloqueado ? `<div class="ribbon-container">
+                                 <div class="ribbon-em-breve ribbon-1"><div class="ribbon-text"><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span></div></div>
+                                 <div class="ribbon-em-breve ribbon-2"><div class="ribbon-text"><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span><span>EM BREVE</span></div></div>
+                               </div>` : ''}
       <div class="material-meta">
         <span class="meta-chip">${material.tipo}</span>
         <span class="meta-chip">${material.categoria === 'apostilas' ? 'Apostilas' : 'Questões'}</span>

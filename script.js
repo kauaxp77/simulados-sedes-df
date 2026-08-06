@@ -680,3 +680,28 @@ function initResultsGallery() {
   lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 }
+
+/* Modal Premium - Bloqueio de Cartões */
+const premiumModal = document.getElementById('premiumModal');
+if (premiumModal) {
+  // Prevenir click nos botoes dos cartões com .card-bloqueado
+  document.body.addEventListener('click', (e) => {
+    const cardBloqueado = e.target.closest('.card-bloqueado');
+    if (cardBloqueado) {
+      e.preventDefault();
+      e.stopPropagation();
+      premiumModal.classList.add('active');
+    }
+  }, true);
+
+  // Botões de fechar do modal Premium
+  const closeBtns = premiumModal.querySelectorAll('.premium-btn-close');
+  closeBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      premiumModal.classList.remove('active');
+    });
+  });
+
+  premiumModal.addEventListener('click', (e) => { if (e.target === premiumModal) premiumModal.classList.remove('active'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && premiumModal.classList.contains('active')) premiumModal.classList.remove('active'); });
+}
