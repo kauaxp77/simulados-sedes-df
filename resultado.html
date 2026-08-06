@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resultado | Simulado de Elite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;700;800&family=Poppins:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/Logo%20Betao.png" type="image/png" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner container">
+      <a class="brand" href="index.html">
+        <img src="assets/Logo Betao.png" alt="Logo Betão" class="brand-logo" />
+        <span class="brand-text">Simulado SEDES</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Abrir menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-main">
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="simulados.html">Simulado</a>
+          <a href="cursos.html">Cursos</a>
+          <a href="materiais.html">Materiais</a>
+        </div>
+        <div class="nav-status">Prova: 06/09/2026</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container result-grid">
+    <section class="result-card glass">
+      <p class="eyebrow">Resultado final</p>
+      <h2 id="resultTitle">Parabéns! Você alcançou uma ótima performance.</h2>
+      <div class="score-number" id="resultScore">0%</div>
+      <p id="resultSummary">Complete o simulado para ver o feedback motivacional.</p>
+      <div class="result-meter" id="resultMeter"></div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="simulado.html?reset=1">Refazer simulado</a>
+      </div>
+    </section>
+
+    <aside class="table-card glass">
+      <h3>Resumo da prova</h3>
+      <table>
+        <tr>
+          <th>Métrica</th>
+          <th>Valor</th>
+        </tr>
+        <tbody id="resultStats">
+          <tr>
+            <td>Acertos</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Erros</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Brancos</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Tempo restante</td>
+            <td>00:00</td>
+          </tr>
+          <tr>
+            <td>Questões revisadas</td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
+    </aside>
+
+    <section class="result-card glass" style="grid-column: 1 / -1;">
+      <h3>Revisão das questões</h3>
+      <div class="review-list" id="reviewList"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

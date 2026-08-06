@@ -1,0 +1,33 @@
+{
+    "cleanUrls": true,
+    "routes": [
+        {
+            "src": "/firebase\\.json",
+            "status": 404
+        },
+        {
+            "src": "/firestore\\.rules",
+            "status": 404
+        },
+        {
+            "src": "/storage\\.rules",
+            "status": 404
+        },
+        {
+            "src": "/firestore\\.indexes\\.json",
+            "status": 404
+        },
+        {
+            "src": "/\\.firebaserc",
+            "status": 404
+        },
+        {
+            "src": "/functions/(.*)",
+            "status": 404
+        },
+        {
+            "src": "/(.*)\\.md",
+            "status": 404
+        }
+    ]
+}

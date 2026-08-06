@@ -1,0 +1,219 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.role == 'admin';
+    }
+
+    function isProfessor() {
+      return isAuthenticated() && request.auth.token.role == 'professor';
+    }
+
+    function isMonitor() {
+      return isAuthenticated() && request.auth.token.role == 'monitor';
+    }
+
+    function isAluno() {
+      return isAuthenticated() && request.auth.token.role == 'aluno';
+    }
+
+    function userOwns(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    function isValidString(field, minLen, maxLen) {
+      return field is string && field.size() >= minLen && field.size() <= maxLen;
+    }
+
+    function isValidEmail(field) {
+      return field is string && field.matches('^[^@\s]+@[^@\s]+\.[^@\s]+$');
+    }
+
+    function isValidRole(value) {
+      return value in ['admin', 'professor', 'monitor', 'aluno', 'visitante'];
+    }
+
+    function isValidStatus(value) {
+      return value in ['active', 'inactive', 'paid', 'pending', 'cancelled', 'draft', 'published', 'archived'];
+    }
+
+    function isReadOnlyAction() {
+      return request.method == 'get' || request.method == 'list';
+    }
+
+    match /users/{userId} {
+      allow read: if isAdmin() || userOwns(userId);
+      allow create: if isAuthenticated() && request.auth.uid == userId && validUser();
+      allow update: if (isAdmin() || userOwns(userId)) && !('password' in request.resource.data) && validUser();
+      allow delete: if isAdmin();
+
+      function validUser() {
+        return request.resource.data.keys().hasOnly([
+          'name', 'email', 'cpfEncrypted', 'phone', 'role', 'createdAt', 'lastLogin', 'photoUrl', 'plan', 'paymentStatus', 'status', 'permissions', 'updatedAt'
+        ])
+        && isValidString(request.resource.data.name, 2, 120)
+        && isValidEmail(request.resource.data.email)
+        && request.resource.data.cpfEncrypted is string
+        && isValidString(request.resource.data.phone, 8, 20)
+        && isValidRole(request.resource.data.role)
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.lastLogin is timestamp
+        && (request.resource.data.photoUrl is string || request.resource.data.photoUrl == null)
+        && isValidString(request.resource.data.plan, 0, 80)
+        && isValidStatus(request.resource.data.paymentStatus)
+        && isValidStatus(request.resource.data.status)
+        && request.resource.data.permissions is map
+        && request.resource.data.updatedAt is timestamp;
+      }
+    }
+
+    match /simulados/{simuladoId} {
+      allow read: if isAuthenticated();
+      allow create: if (isAdmin() || (isProfessor() && request.auth.uid == request.resource.data.professorId)) && validSimulado();
+      allow update: if (isAdmin() || (isProfessor() && request.auth.uid == resource.data.professorId)) && validSimulado();
+      allow delete: if isAdmin();
+
+      function validSimulado() {
+        return request.resource.data.keys().hasOnly([
+          'name', 'category', 'exam', 'position', 'description', 'questionCount', 'weight', 'durationMinutes', 'createdAt', 'professorId', 'status', 'tags'
+        ])
+        && isValidString(request.resource.data.name, 3, 180)
+        && isValidString(request.resource.data.category, 2, 80)
+        && isValidString(request.resource.data.exam, 2, 120)
+        && isValidString(request.resource.data.position, 2, 120)
+        && isValidString(request.resource.data.description, 0, 2000)
+        && request.resource.data.questionCount is int
+        && request.resource.data.weight is number
+        && request.resource.data.durationMinutes is int
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.professorId is string
+        && isValidStatus(request.resource.data.status)
+        && request.resource.data.tags is list;
+      }
+    }
+
+    match /questoes/{questaoId} {
+      allow read: if isAuthenticated();
+      allow create: if (isAdmin() || (isProfessor() && request.auth.uid == request.resource.data.authorId)) && validQuestao();
+      allow update: if (isAdmin() || (isProfessor() && request.auth.uid == resource.data.authorId)) && validQuestao();
+      allow delete: if isAdmin();
+
+      function validQuestao() {
+        return request.resource.data.keys().hasOnly([
+          'question', 'options', 'correctAnswer', 'explanation', 'subject', 'difficulty', 'weight', 'authorId', 'createdAt', 'updatedAt'
+        ])
+        && isValidString(request.resource.data.question, 10, 2500)
+        && request.resource.data.options is list
+        && request.resource.data.options.size() >= 2
+        && request.resource.data.correctAnswer is string
+        && isValidString(request.resource.data.explanation, 0, 2000)
+        && isValidString(request.resource.data.subject, 2, 120)
+        && request.resource.data.difficulty in ['easy', 'medium', 'hard']
+        && request.resource.data.weight is number
+        && request.resource.data.authorId is string
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp;
+      }
+    }
+
+    match /redacoes/{redacaoId} {
+      allow read: if isAdmin() || userOwns(resource.data.userId) || (isProfessor() && request.auth.uid == resource.data.professorId);
+      allow create: if userOwns(request.resource.data.userId) && validRedacao();
+      allow update: if (isAdmin() || (isProfessor() && request.auth.uid == resource.data.professorId)) && validRedacao();
+      allow delete: if isAdmin();
+
+      function validRedacao() {
+        return request.resource.data.keys().hasOnly([
+          'userId', 'tema', 'submissionText', 'grade', 'review', 'comments', 'professorId', 'submittedAt', 'reviewedAt'
+        ])
+        && request.resource.data.userId is string
+        && isValidString(request.resource.data.tema, 2, 180)
+        && isValidString(request.resource.data.submissionText, 1, 5000)
+        && (request.resource.data.grade is number || request.resource.data.grade == null)
+        && (request.resource.data.review is string || request.resource.data.review == null)
+        && (request.resource.data.comments is string || request.resource.data.comments == null)
+        && request.resource.data.professorId is string
+        && request.resource.data.submittedAt is timestamp
+        && (request.resource.data.reviewedAt is timestamp || request.resource.data.reviewedAt == null);
+      }
+    }
+
+    match /resultados/{resultadoId} {
+      allow read: if isAdmin() || userOwns(resource.data.userId) || (isProfessor() && request.auth.uid == resource.data.professorId);
+      allow create: if (isAdmin() || userOwns(request.resource.data.userId)) && validResultado();
+      allow update: if (isAdmin() || (isProfessor() && request.auth.uid == resource.data.professorId)) && validResultado();
+      allow delete: if isAdmin();
+
+      function validResultado() {
+        return request.resource.data.keys().hasOnly([
+          'userId', 'simuladoId', 'correctCount', 'wrongCount', 'percentage', 'score', 'timeSpentSeconds', 'ranking', 'attemptedAt', 'history', 'professorId'
+        ])
+        && request.resource.data.userId is string
+        && request.resource.data.simuladoId is string
+        && request.resource.data.correctCount is int
+        && request.resource.data.wrongCount is int
+        && request.resource.data.percentage is number
+        && request.resource.data.score is number
+        && request.resource.data.timeSpentSeconds is int
+        && request.resource.data.ranking is int
+        && request.resource.data.attemptedAt is timestamp
+        && request.resource.data.history is list
+        && request.resource.data.professorId is string;
+      }
+    }
+
+    match /assinaturas/{assinaturaId} {
+      allow read: if isAdmin() || userOwns(resource.data.userId);
+      allow create: if (isAdmin() || userOwns(request.resource.data.userId)) && validAssinatura();
+      allow update: if isAdmin() && validAssinatura();
+      allow delete: if isAdmin();
+
+      function validAssinatura() {
+        return request.resource.data.keys().hasOnly([
+          'userId', 'plan', 'price', 'purchaseDate', 'expiryDate', 'status', 'transactionHistory'
+        ])
+        && request.resource.data.userId is string
+        && isValidString(request.resource.data.plan, 1, 120)
+        && request.resource.data.price is number
+        && request.resource.data.purchaseDate is timestamp
+        && request.resource.data.expiryDate is timestamp
+        && isValidStatus(request.resource.data.status)
+        && request.resource.data.transactionHistory is list;
+      }
+    }
+
+    match /logs/{logId} {
+      allow read: if isAdmin();
+      allow create: if userOwns(request.resource.data.actorId) && validLog();
+      allow update: if false;
+      allow delete: if false;
+
+      function validLog() {
+        return request.resource.data.keys().hasOnly([
+          'actorId', 'actorRole', 'action', 'resource', 'resourceId', 'changeType', 'details', 'ip', 'userAgent', 'location', 'device', 'createdAt'
+        ])
+        && request.resource.data.actorId is string
+        && isValidRole(request.resource.data.actorRole)
+        && isValidString(request.resource.data.action, 3, 120)
+        && isValidString(request.resource.data.resource, 3, 120)
+        && request.resource.data.resourceId is string
+        && isValidString(request.resource.data.changeType, 3, 60)
+        && request.resource.data.details is map
+        && request.resource.data.ip is string
+        && request.resource.data.userAgent is string
+        && request.resource.data.location is string
+        && request.resource.data.device is string
+        && request.resource.data.createdAt is timestamp;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

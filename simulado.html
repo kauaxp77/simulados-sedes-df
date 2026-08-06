@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulado em andamento | Simulado de Elite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;700;800&family=Poppins:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/Logo%20Betao.png" type="image/png" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner container">
+      <a class="brand" href="index.html">
+        <img src="assets/Logo Betao.png" alt="Logo Betão" class="brand-logo" />
+        <span class="brand-text">Simulado SEDES</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Abrir menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-main">
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="simulados.html">Simulado</a>
+          <a href="cursos.html">Cursos</a>
+          <a href="materiais.html">Materiais</a>
+        </div>
+        <div class="nav-status">Prova: 06/09/2026</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container quiz-layout">
+    <section class="quiz-card glass">
+      <div class="quiz-header">
+        <div>
+          <p class="eyebrow" id="questionCounter">Questão 1 de 15</p>
+          <h2 id="questionText">Carregando questionário...</h2>
+        </div>
+        <div class="timer-pill" id="timer">15:00</div>
+      </div>
+      <div class="question-meta">
+        <span class="meta-chip" id="questionStatus">Em aberto</span>
+        <span class="meta-chip" id="progressLabel">0/15 respondidas</span>
+      </div>
+      <div class="option-list" id="optionList"></div>
+      <div class="quiz-controls">
+        <button class="btn btn-secondary" type="button" id="prevQuestion">Anterior</button>
+        <button class="btn btn-secondary" type="button" id="toggleReviewBtn">Marcar para revisar</button>
+        <button class="btn btn-primary" type="button" id="nextQuestion">Próxima</button>
+      </div>
+      <div class="question-nav" id="questionNav"></div>
+    </section>
+
+    <aside class="quiz-card glass">
+      <h3>Resumo da prova</h3>
+      <div class="progress-row">
+        <div class="progress-item"><span>Progresso</span>
+          <div class="progress-bar"><span id="progressBar" style="width:0%"></span></div>
+        </div>
+        <div class="progress-item"><span>Tempo restante</span>
+          <div class="progress-bar"><span id="timeBar" style="width:100%"></span></div>
+        </div>
+        <div class="progress-item"><span>Questões revisadas</span>
+          <div class="progress-bar"><span id="reviewBar" style="width:0%"></span></div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-secondary" type="button" id="finishHeaderBtn">Finalizar</button>
+      </div>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
