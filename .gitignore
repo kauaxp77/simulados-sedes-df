@@ -1,0 +1,31 @@
+# Dependências
+node_modules/
+functions/node_modules/
+
+# Firebase
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+*-debug.log
+.runtimeconfig.json
+
+# Credenciais e variáveis de ambiente (nunca versionar)
+.env
+.env.*
+serviceAccount*.json
+*-firebase-adminsdk-*.json
+
+# Vercel
+.vercel/
+
+# Logs e temporários
+*.log
+*.tmp
+
+# IDEs e sistema operacional
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini

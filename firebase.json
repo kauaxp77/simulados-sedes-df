@@ -22,7 +22,7 @@
       "storage.rules",
       "firestore.indexes.json",
       "*.md",
-      "FIREBASE_ARCHITECTURE.md"
+      "docs/**"
     ],
     "rewrites": [
       {

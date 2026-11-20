@@ -1,328 +1,288 @@
-# Simulado SEDES-DF — Plataforma Premium de Concursos
+<p align="center">
+  <img src="docs/banner.png" alt="Simulado SEDES-DF - Plataforma de preparação para concurso" width="100%">
+</p>
 
-Plataforma web de preparação para o concurso da **SEDES-DF (Secretaria de Estado de Desenvolvimento Social do Distrito Federal)**, com foco na banca **Quadrix**. Oferece simulados interativos, acompanhamento de desempenho, biblioteca de materiais e cursos — tudo sustentado pelo ecossistema **Firebase**.
+<h1 align="center">🎯 Simulado SEDES-DF — Plataforma de Concursos</h1>
 
----
+<p align="center">
+  Plataforma web de preparação para o concurso da <b>SEDES-DF</b> (Secretaria de Estado de Desenvolvimento Social
+  do Distrito Federal), com foco na banca <b>Quadrix</b>: simulado com cronômetro e gabarito comentado, planos de
+  assinatura, cursos, materiais e uma base de backend em <b>Firebase</b>.
+</p>
 
-## Sumário
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
+  <img src="https://img.shields.io/badge/Swiper-10-6332F6?style=for-the-badge&logo=swiper&logoColor=white" alt="Swiper">
+  <img src="https://img.shields.io/badge/Firebase-Auth%20%7C%20Firestore%20%7C%20Storage-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase">
+  <img src="https://img.shields.io/badge/Cloud%20Functions-Node%2020-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Cloud Functions Node 20">
+  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
+</p>
 
-- [Visão Geral](#visão-geral)
-- [Funcionalidades](#funcionalidades)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Stack Tecnológico](#stack-tecnológico)
-- [Arquitetura Firebase](#arquitetura-firebase)
-- [Coleções do Firestore](#coleções-do-firestore)
-- [Regras de Segurança](#regras-de-segurança)
-- [Cloud Functions](#cloud-functions)
-- [Configuração e Instalação](#configuração-e-instalação)
-- [Variáveis de Ambiente](#variáveis-de-ambiente)
-- [Executando Localmente](#executando-localmente)
-- [Deploy](#deploy)
-- [Papéis de Usuário](#papéis-de-usuário)
-- [Planos e Pagamento](#planos-e-pagamento)
-
----
-
-## Visão Geral
-
-O **Simulado SEDES-DF** é uma plataforma educacional voltada à preparação para o concurso público da SEDES-DF, previsto para **06/09/2026**. A plataforma foi desenvolvida pelo **Prof. Betão** e oferece:
-
-- Questões no estilo da banca Quadrix
-- Painel de desempenho em tempo real
-- Ranking comparativo entre alunos
-- Biblioteca de materiais gratuitos (apostilas e PDFs)
-- Trilhas de cursos estratégicos
+<p align="center">
+  <a href="#-sobre-o-projeto">Sobre</a> •
+  <a href="#-funcionalidades">Funcionalidades</a> •
+  <a href="#%EF%B8%8F-telas">Telas</a> •
+  <a href="#-como-executar">Como executar</a> •
+  <a href="#-arquitetura-firebase">Firebase</a> •
+  <a href="#-deploy">Deploy</a> •
+  <a href="#-estrutura-do-projeto">Estrutura</a> •
+  <a href="#%EF%B8%8F-tecnologias">Tecnologias</a>
+</p>
 
 ---
 
-## Funcionalidades
+## 📌 Sobre o projeto
 
-| Módulo | Descrição |
-|---|---|
-| **Landing Page** | Apresentação da plataforma, depoimentos, FAQ e planos de assinatura |
-| **Autenticação** | Cadastro, login, verificação de e-mail e recuperação de senha via Firebase Auth |
-| **Simulado** | Questões interativas com timer, revisão de alternativas e gabarito comentado |
-| **Resultado** | Exibição do percentual de acertos, pontuação e análise por questão |
-| **Dashboard** | Painel do aluno com visão geral, ranking, metas e calendário de estudos |
-| **Cursos** | Trilhas estratégicas para acelerar a aprovação |
-| **Materiais** | Biblioteca com apostilas, PDFs e listas de questões para download |
+O **Simulado SEDES-DF** é uma plataforma educacional voltada à preparação para o concurso público da SEDES-DF,
+com prova prevista para **06/09/2026**. O projeto é do **Prof. Betão** e reúne:
 
----
+- simulado interativo com questões no estilo da banca Quadrix, cronômetro e gabarito comentado;
+- landing page com benefícios, depoimentos, resultados de alunos, FAQ e planos de assinatura;
+- páginas de cursos, materiais gratuitos e mentoria;
+- uma camada de backend em **Firebase** (Authentication, Firestore, Storage e Cloud Functions) com regras de
+  segurança por papel de usuário.
 
-## Estrutura do Projeto
+O frontend é estático (HTML, CSS e JavaScript sem framework) e roda direto no navegador.
 
+## ✨ Funcionalidades
+
+| | Recurso | Descrição |
+|---|---|---|
+| 🏠 | **Landing page** | Benefícios, recursos, planos em carrossel (Swiper), resultados de alunos com lightbox e FAQ |
+| 💳 | **Planos** | Cada plano abre um modal de confirmação e leva ao checkout externo de pagamento |
+| 📝 | **Simulado** | 15 questões por tentativa (banco de 20 em `script.js`), com navegação direta para qualquer questão |
+| ⏱️ | **Cronômetro** | 15 minutos, barras de progresso e de tempo; ao zerar, a prova é finalizada automaticamente |
+| 🔖 | **Marcar para revisar** | Questões marcadas aparecem destacadas e entram no resumo da prova |
+| 💾 | **Progresso salvo** | Respostas e tempo ficam no `localStorage`, então recarregar a página não perde a prova |
+| 📊 | **Resultado** | Percentual, acertos, erros, brancos, tempo restante e revisão de cada questão com comentário |
+| 📈 | **Painel do aluno** | Layout de dashboard com desempenho, disciplinas, últimos simulados e metas (dados de exemplo) |
+| 🎓 | **Cursos e materiais** | Catálogo de cursos e biblioteca de PDFs com filtros, marcados como "Em breve" |
+| 🔐 | **Módulo de autenticação** | `auth.js` com cadastro, login, logout, verificação de e-mail, recuperação de senha e perfil no Firestore |
+| 🛡️ | **Regras de segurança** | `firestore.rules` e `storage.rules` com validação de campos e acesso por papel |
+| ☁️ | **Cloud Functions** | Auditoria de escritas, backup diário do Firestore e criptografia de CPF |
+
+> ℹ️ O módulo `auth.js` está pronto, mas ainda não é carregado pelas páginas, e as credenciais do Firebase estão
+> com valores de exemplo (`YOUR_API_KEY`, `YOUR_FIREBASE_PROJECT_ID`). O simulado funciona sem backend.
+
+## 🖼️ Telas
+
+<table>
+  <tr>
+    <td align="center"><b>Página inicial</b><br><img src="docs/screenshots/index.png" alt="Página inicial"></td>
+    <td align="center"><b>Simulado</b><br><img src="docs/screenshots/simulado.png" alt="Simulado"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Resultado e gabarito</b><br><img src="docs/screenshots/resultado.png" alt="Resultado"></td>
+    <td align="center"><b>Painel do aluno</b><br><img src="docs/screenshots/dashboard.png" alt="Painel do aluno"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Cursos</b><br><img src="docs/screenshots/cursos.png" alt="Cursos"></td>
+    <td align="center"><b>Materiais</b><br><img src="docs/screenshots/materiais.png" alt="Materiais"></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><b>Celular</b><br><img src="docs/screenshots/mobile.png" alt="Versão para celular" width="260"></td>
+  </tr>
+</table>
+
+## 🚀 Como executar
+
+### Só o site
+
+Não há build nem dependências no frontend:
+
+```bash
+git clone https://github.com/kauaxp77/simulados-sedes-df.git
+cd simulados-sedes-df
 ```
-├── index.html          # Landing page principal
-├── simulados.html      # Página de apresentação do simulado
-├── simulado.html       # Motor do simulado interativo
-├── resultado.html      # Tela de resultado e gabarito
-├── dashboard.html      # Painel do aluno
-├── cursos.html         # Catálogo de cursos
-├── materiais.html      # Biblioteca de materiais gratuitos
-├── auth.js             # Módulo de autenticação Firebase
-├── script.js           # Scripts da landing page (nav, FAQ, quiz)
-├── cursos.js           # Lógica da página de cursos
-├── materiais.js        # Lógica da biblioteca de materiais
-├── styles.css          # Estilos globais
-├── firebase.json       # Configuração do Firebase (hosting, functions, rules)
-├── firestore.rules     # Regras de segurança do Firestore
-├── storage.rules       # Regras de segurança do Firebase Storage
-├── assets/
-│   ├── Logo Betao.png  # Logo da plataforma
-│   └── pdfs/           # Materiais em PDF
-└── functions/
-    ├── index.js        # Cloud Functions (auditoria, backup, criptografia de CPF)
-    └── package.json    # Dependências das functions
+
+Abra o `index.html` no navegador (as páginas, o simulado e o resultado funcionam abrindo os arquivos direto).
+Se preferir um servidor local (depois acesse http://localhost:8000):
+
+```bash
+python3 -m http.server 8000
 ```
 
----
+### Com Firebase
 
-## Stack Tecnológico
+Pré-requisitos: [Node.js](https://nodejs.org/) 20+ e [Firebase CLI](https://firebase.google.com/docs/cli).
 
-**Frontend**
-- HTML5 + CSS3 + JavaScript (ES Modules, sem framework)
-- Google Fonts: Inter, Manrope, Poppins
-- Swiper.js (carrossel da landing page)
+```bash
+npm install -g firebase-tools
+firebase login
+```
 
-**Backend / Infraestrutura**
-- Firebase Authentication
-- Cloud Firestore (banco de dados NoSQL)
-- Firebase Storage (arquivos e fotos de perfil)
-- Firebase Cloud Functions (Node.js 20)
-- Firebase Hosting
-- Firebase Security Rules
+1. Em `.firebaserc`, troque `YOUR_FIREBASE_PROJECT_ID` pelo ID do seu projeto.
+2. Em `auth.js`, preencha o `firebaseConfig` com os dados do app web (Console do Firebase → Configurações do
+   projeto → Seus apps).
+3. Instale as dependências das functions:
 
----
+   ```bash
+   cd functions
+   npm install
+   ```
 
-## Arquitetura Firebase
+4. Configure as variáveis das Cloud Functions:
+
+   | Variável | Descrição |
+   |---|---|
+   | `CPF_SECRET` | Chave AES-256 (64 caracteres hexadecimais) usada por `encryptCpf` |
+   | `BACKUP_BUCKET` | Bucket do Google Cloud Storage que recebe o backup diário |
+
+5. Rode os emuladores:
+
+   ```bash
+   firebase emulators:start
+   ```
+
+   | Serviço | Porta |
+   |---|---|
+   | Hosting | http://localhost:5000 |
+   | Cloud Functions | http://localhost:5001 |
+   | Firestore | http://localhost:8080 |
+
+> Os comandos do Firebase seguem a configuração do repositório (`firebase.json`); eles não foram executados contra um
+> projeto real.
+
+## 🔥 Arquitetura Firebase
 
 ```
 Firebase Project
 ├── Authentication      → login por e-mail/senha com verificação de e-mail
-├── Cloud Firestore     → dados de usuários, simulados, questões, resultados
-├── Firebase Storage    → PDFs, fotos de perfil
-├── Cloud Functions     → auditoria, backup diário, criptografia de CPF
+├── Cloud Firestore     → usuários, simulados, questões, redações, resultados, assinaturas e logs
+├── Firebase Storage    → fotos de perfil e arquivos de simulado
+├── Cloud Functions     → auditoria, backup diário e criptografia de CPF
 └── Firebase Hosting    → entrega do frontend estático
 ```
 
-As requisições às Cloud Functions são roteadas via `firebase.json` com o prefixo `/api/**`.
+### Coleções do Firestore
 
----
-
-## Coleções do Firestore
-
-### `users`
+#### `users`
 Perfis dos usuários cadastrados.
 
 | Campo | Tipo | Descrição |
 |---|---|---|
 | `name` | string | Nome completo |
 | `email` | string | E-mail |
-| `cpfEncrypted` | string | CPF criptografado (AES-256-GCM) |
+| `cpfEncrypted` | string | CPF protegido |
 | `phone` | string | Telefone |
 | `role` | string | `admin`, `professor`, `monitor`, `aluno`, `visitante` |
-| `plan` | string | Plano ativo (`gratuito`, `premium`, etc.) |
+| `plan` | string | Plano ativo (`gratuito`, `premium` etc.) |
 | `paymentStatus` | string | `paid`, `pending`, `cancelled` |
 | `status` | string | `active`, `inactive` |
 | `permissions` | map | Permissões personalizadas |
-| `createdAt` | timestamp | Data de cadastro |
-| `lastLogin` | timestamp | Último acesso |
+| `createdAt` / `updatedAt` / `lastLogin` | timestamp | Datas de cadastro, atualização e último acesso |
 | `photoUrl` | string | URL da foto de perfil |
 
-**Subcoleções:** `users/{userId}/loginLogs`, `users/{userId}/securityEvents`
+#### `simulados`
+Configuração dos simulados: `name`, `category`, `exam`, `position`, `description`, `questionCount`, `weight`,
+`durationMinutes`, `professorId`, `status` (`draft`, `published`, `archived`), `tags` e `createdAt`.
 
-### `simulados`
-Configuração e metadados dos simulados.
+#### `questoes`
+Banco de questões reutilizáveis: `question`, `options` (mínimo 2), `correctAnswer`, `explanation`, `subject`,
+`difficulty` (`easy`, `medium`, `hard`), `weight`, `authorId`, `createdAt` e `updatedAt`.
 
-| Campo | Tipo | Descrição |
-|---|---|---|
-| `name` | string | Nome do simulado |
-| `category` | string | Categoria |
-| `exam` | string | Concurso alvo |
-| `position` | string | Cargo |
-| `questionCount` | number | Número de questões |
-| `durationMinutes` | number | Duração em minutos |
-| `status` | string | `draft`, `published`, `archived` |
-| `professorId` | string | ID do professor responsável |
+#### `redacoes`, `resultados`, `assinaturas` e `logs`
+Redações enviadas para correção, histórico de tentativas e pontuações, assinaturas e pagamentos, e a trilha de
+auditoria das operações.
 
-**Subcoleções:** `simulados/{simuladoId}/questions`, `simulados/{simuladoId}/attempts`
-
-### `questoes`
-Banco de questões reutilizáveis.
-
-| Campo | Tipo | Descrição |
-|---|---|---|
-| `question` | string | Enunciado |
-| `options` | array | Alternativas |
-| `correctAnswer` | string | Resposta correta |
-| `explanation` | string | Comentário do gabarito |
-| `subject` | string | Disciplina |
-| `difficulty` | string | `easy`, `medium`, `hard` |
-| `weight` | number | Peso da questão |
-
-### `redacoes`
-Textos enviados pelos alunos para correção.
-
-### `resultados`
-Histórico de tentativas e pontuações por aluno.
-
-### `assinaturas`
-Dados de assinatura e pagamento dos usuários.
-
-### `logs`
-Auditoria de todas as operações críticas do sistema.
-
----
-
-## Regras de Segurança
+### Regras de segurança
 
 | Coleção | Leitura | Escrita |
 |---|---|---|
-| `users` | Próprio usuário ou admin | Próprio usuário ou admin |
-| `simulados` | Usuários autenticados | Admin ou professor proprietário |
-| `questoes` | Usuários autenticados | Admin ou professor proprietário |
-| `redacoes` | Autor, admin ou professor responsável | Apenas autor |
-| `resultados` | Dono, professor ou admin | Dono ou admin |
-| `assinaturas` | Dono ou admin | Apenas admin |
-| `logs` | Apenas admins | Qualquer usuário autenticado (próprio log) |
+| `users` | Próprio usuário ou admin | Próprio usuário ou admin (exclusão só admin) |
+| `simulados` | Usuários autenticados | Admin ou professor responsável |
+| `questoes` | Usuários autenticados | Admin ou professor autor |
+| `redacoes` | Autor, admin ou professor responsável | Criação pelo autor; correção por admin ou professor |
+| `resultados` | Dono, professor responsável ou admin | Criação pelo dono ou admin |
+| `assinaturas` | Dono ou admin | Criação pelo dono ou admin; alteração só admin |
+| `logs` | Apenas admin | Criação do próprio log; nunca editável |
+| Demais caminhos | Bloqueado | Bloqueado |
 
----
+No Storage, cada usuário envia só a própria foto de perfil (imagem de até 5 MB) e apenas admin/professor enviam
+arquivos de simulado.
 
-## Cloud Functions
-
-Localizadas em `functions/index.js`:
+### Cloud Functions (`functions/index.js`)
 
 | Função | Gatilho | Descrição |
 |---|---|---|
-| `createAuditLog` | Firestore `onWrite` | Registra toda criação, atualização e exclusão de documentos em `logs` |
-| `backupFirestore` | Agendado (a cada 24h) | Exporta snapshot do Firestore para o bucket de backup no GCS |
-| `encryptCpf` | HTTPS Callable | Criptografa o CPF do usuário com AES-256-GCM antes de persistir |
-| `restoreBackup` | HTTPS Callable | Restaura backup (somente admins) |
+| `createAuditLog` | Firestore `onWrite` | Registra criação, atualização e exclusão de documentos em `logs` |
+| `backupFirestore` | Agendada (a cada 24h) | Exporta o Firestore para o bucket de backup |
+| `encryptCpf` | HTTPS Callable | Criptografa o CPF com AES-256-GCM usando `CPF_SECRET` |
+| `restoreBackup` | HTTPS Callable | Restrita a admin; a restauração em si ainda está por implementar |
 
----
+### Papéis de usuário
 
-## Configuração e Instalação
-
-### Pré-requisitos
-
-- [Node.js](https://nodejs.org/) v20+
-- [Firebase CLI](https://firebase.google.com/docs/cli)
-
-### 1. Instalar o Firebase CLI
-
-```bash
-npm install -g firebase-tools
-```
-
-### 2. Autenticar
-
-```bash
-firebase login
-```
-
-### 3. Associar ao projeto Firebase
-
-Edite `.firebaserc` e substitua `YOUR_FIREBASE_PROJECT_ID` pelo ID real do seu projeto:
-
-```json
-{
-  "projects": {
-    "default": "seu-projeto-firebase-id"
-  }
-}
-```
-
-### 4. Instalar dependências das Functions
-
-```bash
-cd functions
-npm install
-```
-
-### 5. Configurar credenciais do frontend
-
-Edite `auth.js` e substitua os valores de `firebaseConfig` com as credenciais do seu projeto Firebase:
-
-```js
-const firebaseConfig = {
-  apiKey: 'SUA_API_KEY',
-  authDomain: 'SEU_PROJETO.firebaseapp.com',
-  projectId: 'SEU_PROJETO',
-  storageBucket: 'SEU_PROJETO.appspot.com',
-  messagingSenderId: 'SEU_SENDER_ID',
-  appId: 'SEU_APP_ID'
-};
-```
-
-> As credenciais estão disponíveis no console do Firebase em **Configurações do Projeto > Seus apps**.
-
----
-
-## Variáveis de Ambiente
-
-As Cloud Functions utilizam variáveis de ambiente que devem ser configuradas via Firebase:
-
-```bash
-firebase functions:config:set cpf.secret="SUA_CHAVE_HEX_64_CHARS" backup.bucket="nome-do-bucket-gcs"
-```
-
-| Variável | Descrição |
+| Papel | Permissões |
 |---|---|
-| `CPF_SECRET` | Chave AES-256 (64 caracteres hexadecimais) para criptografia do CPF |
-| `BACKUP_BUCKET` | Nome do bucket do Google Cloud Storage para backups |
+| `admin` | Acesso total a recursos e dados |
+| `professor` | Cria e edita os próprios simulados e questões; vê resultados dos seus alunos |
+| `monitor` | Suporte aos alunos |
+| `aluno` | Faz simulados, acessa materiais e cursos, vê o próprio desempenho |
+| `visitante` | Apenas conteúdo público |
 
----
+Os papéis são lidos do token de autenticação (`request.auth.token.role`).
 
-## Executando Localmente
+Documentação complementar: [`docs/FIREBASE_ARCHITECTURE.md`](docs/FIREBASE_ARCHITECTURE.md),
+[`docs/README_FIREBASE.md`](docs/README_FIREBASE.md) e
+[`docs/auditoria-seguranca-firebase.md`](docs/auditoria-seguranca-firebase.md).
 
-Use o emulador do Firebase para desenvolver e testar sem afetar dados de produção:
+## 🌐 Deploy
 
-```bash
-firebase emulators:start
-```
-
-| Serviço | Porta padrão |
-|---|---|
-| Firebase Hosting | http://localhost:5000 |
-| Cloud Functions | http://localhost:5001 |
-| Cloud Firestore | http://localhost:8080 |
-
----
-
-## Deploy
+**Firebase Hosting** (comandos indicados pela configuração; não executados aqui):
 
 ```bash
-# Deploy completo (hosting + functions + rules)
-firebase deploy
-
-# Apenas hosting
+firebase deploy                                     # hosting + functions + regras
 firebase deploy --only hosting
-
-# Apenas functions
 firebase deploy --only functions
-
-# Apenas regras de segurança
 firebase deploy --only firestore:rules,storage:rules
 ```
 
----
+O `firebase.json` publica a raiz do projeto e ignora `functions/`, regras, arquivos ocultos, `*.md` e `docs/`.
 
-## Papéis de Usuário
+**Vercel**: o `vercel.json` ativa URLs limpas e devolve 404 para `firebase.json`, `.firebaserc`, regras,
+`functions/` e arquivos `.md`, para que não fiquem públicos.
 
-| Role | Permissões |
-|---|---|
-| `admin` | Acesso total a todos os recursos e dados |
-| `professor` | Criar e editar simulados e questões; visualizar resultados dos alunos |
-| `monitor` | Suporte a alunos; acesso limitado a resultados |
-| `aluno` | Realizar simulados, acessar materiais e cursos, ver próprio desempenho |
-| `visitante` | Acesso apenas a conteúdo público |
+## 📁 Estrutura do projeto
 
----
+```
+simulados-sedes-df/
+├── index.html            # Landing page
+├── simulados.html        # Apresentação do simulado
+├── simulado.html         # Simulado interativo
+├── resultado.html        # Resultado e gabarito comentado
+├── dashboard.html        # Painel do aluno
+├── cursos.html           # Catálogo de cursos
+├── materiais.html        # Biblioteca de materiais
+├── mentoria.html         # Mentoria (em construção)
+├── script.js             # Menu, FAQ, simulado, resultado, modais e animações
+├── cursos.js             # Lógica da página de cursos
+├── materiais.js          # Lógica da biblioteca de materiais
+├── auth.js               # Módulo de autenticação Firebase (ES module)
+├── styles.css            # Estilos globais
+├── assets/               # Logo, fotos do professor, resultados de alunos e PDFs
+├── functions/
+│   ├── index.js          # Cloud Functions
+│   └── package.json
+├── docs/                 # Documentação Firebase, banner e prints
+├── firebase.json         # Hosting, functions, regras e emuladores
+├── firestore.rules       # Regras do Firestore
+├── storage.rules         # Regras do Storage
+├── .firebaserc           # Projeto Firebase padrão
+└── vercel.json           # Rotas e bloqueios na Vercel
+```
 
-## Planos e Pagamento
+## 🛠️ Tecnologias
 
-A plataforma suporta múltiplos planos de acesso. O campo `plan` no perfil do usuário e o campo `paymentStatus` (`paid`, `pending`, `cancelled`) controlam o acesso aos recursos premium.
+- **HTML5, CSS3 e JavaScript** sem framework, fontes **Inter**, **Manrope** e **Poppins**
+- **Swiper 10** no carrossel de planos
+- **Firebase**: Authentication, Cloud Firestore, Storage, Hosting e Security Rules (SDK web 10.11)
+- **Cloud Functions** em Node.js 20 (`firebase-functions` e `firebase-admin`)
+- **Vercel** como alternativa de hospedagem estática
 
----
+## 👨‍💻 Autor
 
-> Desenvolvido por **Prof. Betão** — Preparatório SEDES-DF
+Desenvolvido por **[kauaxp77](https://github.com/kauaxp77)** para o Prof. Betão — Preparatório SEDES-DF.
+
+<p align="center">⭐ Se curtiu o projeto, deixe uma estrela!</p>
