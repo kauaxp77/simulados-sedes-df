@@ -3354,3 +3354,10 @@ h3 {
 .premium-btn-close:hover {
   background: #333;
 }
+
+/* Mantém o respiro lateral do .container nas seções (o padding de .section/.hero zerava as laterais) */
+.container.section,
+.container.hero {
+  padding-left: clamp(1rem, 2vw, 2rem);
+  padding-right: clamp(1rem, 2vw, 2rem);
+}
